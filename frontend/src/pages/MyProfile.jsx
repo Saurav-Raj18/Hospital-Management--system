@@ -63,7 +63,7 @@ const MyProfile = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <p className="font-medium text-sm">Email id:</p>
-            <p className="text-sm">{userData.email}</p>
+            <p className="text-sm text-blue-500">{userData.email}</p>
           </div>
           <div>
             <p className="font-medium text-sm">Phone:</p>
