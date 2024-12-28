@@ -1,17 +1,46 @@
-import React, { useState } from 'react';
-
+import React, { useContext, useState } from 'react';
+import { AppContext } from '../context/AppContext';
+import axios from 'axios'
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 const Login = () => {
+  const {backendUrl,token,setToken}=useContext(AppContext)
   const [state, setState] = useState('Sign Up');
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-
-  const handleSubmit = (e) => {
+  const navigate=useNavigate();
+  const handleSubmit = async(e) => {
     e.preventDefault(); // Correct usage to prevent default form submission
-    if (state === 'Sign Up') {
-      console.log('Signing Up:', { name, email, password });
-    } else {
-      console.log('Logging In:', { email, password });
+    
+    try {
+      
+       if(state==='Sign Up'){
+           const {data}=await axios.post(backendUrl+'/api/user/register',{name,password,email});
+           if(data.success){
+              localStorage.setItem('token',data.token)
+              setToken(data.token)
+              navigate('/')
+           }
+           else{
+               toast.error(data.message)
+           }
+       }
+       else{
+
+           const {data}=await axios.post(backendUrl+'/api/user/login',{password,email});
+           if(data.success){
+              localStorage.setItem('token',data.token)
+              setToken(data.token)
+              navigate('/')
+           }
+           else{
+               toast.error(data.message)
+           }
+       }
+
+    } catch (error) {
+      toast.error(error.message)
     }
   };
 

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { doctors } from '../assets/assets';
+import { AppContext } from '../context/AppContext';
 
 const Appointment = () => {
+  const {doctors}=useContext(AppContext)
   const { docId } = useParams();
   const navigate = useNavigate();
   const filteredDoctor = doctors.filter((item) => item._id === docId);

@@ -1,19 +1,8 @@
-import React, { useState } from 'react';
-import { assets } from '../assets/assets';
+import React, { useContext, useState } from 'react';
+import { AppContext } from '../context/AppContext';
 
 const MyProfile = () => {
-  const [userData, setUserData] = useState({
-    name: "Saurav Raj",
-    image: assets.profile_pic,
-    email: "saurav@gmail.com",
-    phone: "1234567891",
-    address: {
-      line1: "57th Cross, Richmond",
-      line2: "Circle, Church Road, London",
-    },
-    gender: "Male",
-    dob: "2000-01-20",
-  });
+  const {userData,setUserData}=useContext(AppContext)
   const [isEdit, setIsEdit] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
 
@@ -26,7 +15,7 @@ const MyProfile = () => {
     setIsEdit(!isEdit);
   };
 
-  return (
+  return userData && (
     <div className=" max-w-lg sm:max-w-4xl mx-auto p-4 sm:p-6 bg-white shadow-lg rounded-lg mt-6">
       {/* Toast Notification */}
       {showMessage && (
