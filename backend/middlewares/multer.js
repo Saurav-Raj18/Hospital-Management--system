@@ -16,5 +16,5 @@ const storage=multer.diskStorage({
 
 //create multer upload instance
 const upload=multer({storage})
-
+//console.log("upload multer",upload)
 export default upload

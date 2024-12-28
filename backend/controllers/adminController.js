@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken'
 //API for adding doctor
 const addDoctor=async(req,res)=>{
      try {
-
+        // console.log(req.body)
          const {name,email,password,speciality,degree,experience,about,fee,address}=req.body;
          const imageFile=req.file 
          
@@ -22,7 +22,7 @@ const addDoctor=async(req,res)=>{
          if(!validator.isEmail(email)){
              return res.json({
                 success:false,
-                message:"Please enter valid emial"
+                message:"Please enter valid email"
              })
          }
 
@@ -59,7 +59,7 @@ const addDoctor=async(req,res)=>{
        const newDoctor=new doctorModel(doctorData)
        await newDoctor.save()
 
-       res.json({
+      return  res.json({
         success:true,
         message:"Doctor added Successfully"
        })
@@ -80,7 +80,7 @@ const adminLogin=async(req,res)=>{
           const {email,password}=req.body
           if(!email || !password){
                return res.json({
-                   success:'false',
+                   success:false,
                    message:'Details missing'
                })
           }
@@ -97,16 +97,38 @@ const adminLogin=async(req,res)=>{
           }
           else{
               res.json({
-                  success:'false',
+                  success:false,
                   message:'Invalid credentials'
               })
           }
      } catch (error) {
         console.log(error);
         res.json({
-            success:'false',
+            success:false,
             message:error.message
         })
      }
 }
-export {addDoctor,adminLogin}
+
+
+//API to get all doctors list for admin panel
+
+const allDoctors=async(req,res)=>{
+      try {
+         
+          const doctors=await doctorModel.find({}).select('-password')
+          res.json({
+              success:true,
+              doctors
+          })
+
+      } 
+      catch (error) {
+        console.log(error)
+        res.json({
+            success:false,
+            message:error.message
+        })
+      }
+}
+export {addDoctor,adminLogin,allDoctors}
